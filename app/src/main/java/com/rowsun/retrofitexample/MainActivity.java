@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.rowsun.retrofitexample.datamanager.ApiClient;
 import com.rowsun.retrofitexample.datamanager.ApiInterface;
+import com.rowsun.retrofitexample.model.LoginResponse;
 import com.rowsun.retrofitexample.model.Student;
 
 import java.util.List;
@@ -40,20 +41,22 @@ public class MainActivity extends AppCompatActivity {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<List<Student>> c = apiService.getStudentsList();
-
-        c.enqueue(new Callback<List<Student>>() {
+        apiService.login("register","rrijalroshan94@gmail.com", "password").enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
-                List<Student> s = response.body();
-                hello.setText("Response = " + s);
-                Log.d("RESPONSE", "onResponse: " + response.body());
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.body()!=null){
+                    LoginResponse loginResponse = response.body();
+                    if (loginResponse.isSuccess()){
+
+                    }else{
+
+                    }
+                }
             }
 
             @Override
-            public void onFailure(Call<List<Student>> call, Throwable t) {
-                Log.d("dfdfd", "onFailure: " + t.getCause());
-                t.printStackTrace();
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
             }
         });
 
